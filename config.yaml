@@ -1,7 +1,7 @@
 gcp:
   project_id: "${GCP_PROJECT_ID}"
   billing_account_id: "${GCP_BILLING_ACCOUNT_ID}"
-  key_file: "service_account.json"   # This file is NOT uploaded to GitHub
+  key_file: "service_account.json"   
 
 limits:
   bigquery:
