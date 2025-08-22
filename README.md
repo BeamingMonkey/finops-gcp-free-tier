@@ -1,7 +1,7 @@
 # FinOps Dashboard for Cloud Cost Visibility (Free Tier Usage Tracker)
 
 ## Objective
-Monitor and visualize cloud resource usage to detect free-tier limit breaches **before billing starts**. This helps prevent unexpected cloud costs by proactively flagging at-risk services.
+Monitor and visualize cloud resource usage to detect free-tier limit breaches **before billing starts**, helping prevent unexpected cloud costs by proactively flagging at-risk services.
 
 ## Features
 - Fetch daily resource usage from:
@@ -39,54 +39,44 @@ source venv/bin/activate      # Linux / Mac
 venv\Scripts\activate         # Windows
 pip install -r requirements.txt
 Run Data Fetch Script
+bash
+Copy
+Edit
 python fetch_usage.py
-
-Visualize in Grafana
-
-Add SQLite as a data source pointing to usage_data.db.
-
-Import dashboards and configure panels to show:
-
-Daily usage trends
-
-Service-specific alerts for at-risk usage
-
-Example Database Structure
-Usage Table
-service	usage	unit	timestamp
-compute_engine	20.0	hours	2025-08-22 14:27:30
-storage	5.0	GB	2025-08-22 14:27:30
-Risks Table
-service	message	timestamp
-compute_engine	Compute Engine nearing free tier!	2025-08-22 14:27:30
-storage	Storage usage approaching free tier	2025-08-22 14:27:30
-
-Run Data Fetch Script
-python fetch_usage.py
-
 Database Structure
 Usage Table
 service	usage	unit	timestamp
 compute_engine	20.0	hours	2025-08-22 14:27:30
 storage	5.0	GB	2025-08-22 14:27:30
+
 Risks Table
 service	message	timestamp
 compute_engine	Compute Engine nearing free tier!	2025-08-22 14:27:30
 storage	Storage usage approaching free tier	2025-08-22 14:27:30
+
 Grafana Configuration
-
 Add SQLite Data Source
-
 Open Grafana → Configuration → Data Sources → Add data source
 
 Select SQLite
 
-Path: usage_data.db
+If the plugin is not installed:
 
-Click Save & Test
+bash
+Copy
+Edit
+grafana-cli plugins install fr-ser-sqlite-datasource
+Then restart Grafana.
+
+Set Path to your SQLite database:
+
+pgsql
+Copy
+Edit
+path/to/usage_data.db
+Click Save & Test – it should say Data source is working
 
 Import Dashboards
-
 Create or import dashboards with panels showing:
 
 Daily usage trends per service
@@ -96,7 +86,6 @@ Usage vs. free-tier limits
 At-risk services alerts
 
 Configure Panels
-
 Graph Panel: Plot usage over timestamp for each service
 
 Stat Panel: Show current usage and highlight services approaching limits
@@ -104,5 +93,51 @@ Stat Panel: Show current usage and highlight services approaching limits
 Alert Panel: Trigger alerts if usage crosses defined free-tier thresholds
 
 Optional: Weekly Reports
-
 Set up a Grafana alert or scheduled report to email usage summaries weekly.
+
+Step-by-Step Grafana Setup Guide
+Install Grafana
+
+Download from Grafana Downloads
+
+Start Grafana (http://localhost:3000)
+
+Default login: admin / admin
+
+Add SQLite Data Source
+
+Configuration → Data Sources → Add Data Source → SQLite
+
+Path: usage_data.db
+
+Click Save & Test
+
+Create a Dashboard
+
+Dashboards → New Dashboard → Add New Panel
+
+Select SQLite as data source
+
+Graph Panel example query:
+
+sql
+Copy
+Edit
+SELECT timestamp, usage FROM Usage WHERE service='compute_engine' ORDER BY timestamp
+Stat Panel: show latest usage
+
+Alert Panel: set thresholds for free-tier limits
+
+Import Prebuilt Dashboard (Optional)
+
+Dashboards → Import → Paste JSON / Upload file
+
+Select SQLite data source → Import
+
+Set Up Weekly Reports (Optional)
+
+Alerting → Notification channels → Add Email/Slack
+
+Dashboard → Share → Schedule Report → Choose frequency
+
+This project enables full visibility into cloud free-tier usage, preventing unexpected billing and helping optimize your cloud resources effectively.
