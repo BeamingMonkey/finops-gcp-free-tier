@@ -60,3 +60,49 @@ Risks Table
 service	message	timestamp
 compute_engine	Compute Engine nearing free tier!	2025-08-22 14:27:30
 storage	Storage usage approaching free tier	2025-08-22 14:27:30
+
+Run Data Fetch Script
+python fetch_usage.py
+
+Database Structure
+Usage Table
+service	usage	unit	timestamp
+compute_engine	20.0	hours	2025-08-22 14:27:30
+storage	5.0	GB	2025-08-22 14:27:30
+Risks Table
+service	message	timestamp
+compute_engine	Compute Engine nearing free tier!	2025-08-22 14:27:30
+storage	Storage usage approaching free tier	2025-08-22 14:27:30
+Grafana Configuration
+
+Add SQLite Data Source
+
+Open Grafana → Configuration → Data Sources → Add data source
+
+Select SQLite
+
+Path: usage_data.db
+
+Click Save & Test
+
+Import Dashboards
+
+Create or import dashboards with panels showing:
+
+Daily usage trends per service
+
+Usage vs. free-tier limits
+
+At-risk services alerts
+
+Configure Panels
+
+Graph Panel: Plot usage over timestamp for each service
+
+Stat Panel: Show current usage and highlight services approaching limits
+
+Alert Panel: Trigger alerts if usage crosses defined free-tier thresholds
+
+Optional: Weekly Reports
+
+Set up a Grafana alert or scheduled report to email usage summaries weekly.
