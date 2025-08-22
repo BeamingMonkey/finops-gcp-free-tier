@@ -1,0 +1,12 @@
+gcp:
+  project_id: "${GCP_PROJECT_ID}"
+  billing_account_id: "${GCP_BILLING_ACCOUNT_ID}"
+  key_file: "service_account.json"   # This file is NOT uploaded to GitHub
+
+limits:
+  bigquery:
+    free_tier_tb: 1   # 1 TB free per month
+  storage:
+    free_tier_gb: 5   # 5 GB free
+  compute_engine:
+    free_hours: 720   # 1 f1-micro instance per month

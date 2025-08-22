@@ -1,0 +1,14 @@
+# Ignore sensitive files
+service_account.json
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.env
+venv/
+
+# IDE / OS files
+.vscode/
+.DS_Store
